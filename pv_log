@@ -1,0 +1,23 @@
+#!/bin/sh
+
+VERSION=0.0.1
+FDATE=`date "+%y%m%d-%H%M%S"`
+HOST=`hostname -s`
+LOGFILE="pv-$FDATE.csv"
+
+echo "Starting log $LOGFILE"
+echo
+
+echo "pv_log Ver: $VERSION" > $LOGFILE
+echo -n "HOST: " >> $LOGFILE
+echo $HOST  >> $LOGFILE
+echo -n "DATE: " >> $LOGFILE
+echo `date` >> $LOGFILE
+
+# Allow the addition of some descriptive text from the cmd line
+echo -n "COMMENT: " >> $LOGFILE
+echo $1 >> $LOGFILE
+echo "<StartData>" >> $LOGFILE
+
+./pyProva.py -d 3 | tee -a $LOGFILE
+
