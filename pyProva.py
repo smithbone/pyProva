@@ -73,7 +73,7 @@ class ProVa():
                 if self.debug:
                     sys.stderr.write('Bad parse of "%s"\n' % each)
 
-            return self.parse_valid
+        return self.parse_valid
 
     def write(self,data):
         self.ser.write(data)
