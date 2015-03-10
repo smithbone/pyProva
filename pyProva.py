@@ -112,7 +112,19 @@ class Readings():
     def print_last_reading_csv(self):
         first = self.history[0]
         r = self.history[-1]
-        print "%.1f, %.4f, %6.4f, %6.4f, %6.4f, %7.5f" % (r['READTIME'],(r['READTIME']-first['READTIME'])/3600,r['VOLTAGE'],r['CURRENT'],r['WATTAGE'],r['WATTSECONDS']/3600)
+        print "%.1f, %.4f, %6.4f, %6.4f, %9.7f, %9.7f" % (r['READTIME'],(r['READTIME']-first['READTIME'])/3600,r['VOLTAGE'],r['CURRENT'],r['WATTAGE'],r['WATTSECONDS']/3600)
+        sys.stdout.flush()
+
+    def print_average_pwr(self):
+        first = self.history[0]
+        last  = self.history[-1]
+        duration = last['READTIME']-first['READTIME']
+        if (duration != 0.):
+            pwr = last['WATTSECONDS']/duration
+        else:
+            pwr = 0
+
+        print('\nAverage power: %9.7f W' % (pwr))
         sys.stdout.flush()
 
 if __name__ == "__main__":
@@ -124,6 +136,8 @@ if __name__ == "__main__":
                    help='Expected channels per reading (default 2)')
 #   parser.add_argument('-p','--port', type=int, default=2, dest='channels',
 #                   help='Expected channels per reading (default 2)')
+    parser.add_argument('-a','--avg',action='store_true',default=False,
+                            help='Enable run average calculation')
     parser.add_argument('--debug', action='store_true', default=False,
                    help='Enable debug output')
 
@@ -192,6 +206,9 @@ if __name__ == "__main__":
 
     except KeyboardInterrupt:
         pass
+
+    if args.avg:
+        readings.print_average_pwr()
 
     exit_program()
 
