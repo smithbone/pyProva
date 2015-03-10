@@ -19,5 +19,5 @@ echo -n "COMMENT: " >> $LOGFILE
 echo $1 >> $LOGFILE
 echo "<StartData>" >> $LOGFILE
 
-./pyProva.py -d 3 | tee -a $LOGFILE
+./pyProva.py -d 2.2 | tee -a $LOGFILE
 
