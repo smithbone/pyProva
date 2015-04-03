@@ -112,7 +112,12 @@ class Readings():
     def print_last_reading_csv(self):
         first = self.history[0]
         r = self.history[-1]
-        print "%.1f, %.4f, %6.4f, %8.6f, %10.8f, %10.8f" % (r['READTIME'],(r['READTIME']-first['READTIME'])/3600,r['VOLTAGE'],r['CURRENT'],r['WATTAGE'],r['WATTSECONDS']/3600)
+        duration = r['READTIME']-first['READTIME']
+        if (duration != 0.):
+            pwr = r['WATTSECONDS']/duration
+        else:
+            pwr = 0
+        print "%.1f, %.4f, %6.4f, %8.6f, %10.8f, %10.8f, %9.7f" % (r['READTIME'],(duration/3600),r['VOLTAGE'],r['CURRENT'],r['WATTAGE'],r['WATTSECONDS']/3600,pwr)
         sys.stdout.flush()
 
     def print_average_pwr(self):
